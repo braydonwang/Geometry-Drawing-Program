@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.Arrays;
 /* -------------------------------- */
 
 /**
@@ -728,7 +729,7 @@ public class GeometryDrawingProgram {
               }
               
               //drawing the ellipse/circle
-              g.drawOval(x-((Ellipse)shape).getRadius1(),y-((Ellipse)shape).getRadius2(),((Ellipse)shape).getRadius1()*2,((Ellipse)shape).getRadius2()*2);
+              g.drawOval(x-((Ellipse)shape).getRadius1()+260,-y-((Ellipse)shape).getRadius2()+260,((Ellipse)shape).getRadius1()*2,((Ellipse)shape).getRadius2()*2);
               
             } else {
               if (shape instanceof Square) {
@@ -738,7 +739,7 @@ public class GeometryDrawingProgram {
               }
               
               //drawing the rectangle/square
-              g.drawRect(x,y,((Rectangle)shape).getLength(),((Rectangle)shape).getWidth());
+              g.drawRect(x+260,-y+260,((Rectangle)shape).getLength(),((Rectangle)shape).getWidth());
             }
             
           } else {
@@ -753,7 +754,13 @@ public class GeometryDrawingProgram {
             }
             
             //drawing the complex shape
-            g.drawPolygon(((ComplexShape)shape).getXCoordinates(),((ComplexShape)shape).getYCoordinates(),((ComplexShape)shape).getNumberOfSides());
+            int[] modifiedX = Arrays.copyOf(((ComplexShape)shape).getXCoordinates(),((ComplexShape)shape).getNumberOfSides());
+            int[] modifiedY = Arrays.copyOf(((ComplexShape)shape).getYCoordinates(),((ComplexShape)shape).getNumberOfSides());
+            for (int z = 0; z < modifiedX.length; z++) {
+              modifiedX[z] += 260;
+              modifiedY[z] = -modifiedY[z] + 260;
+            }
+            g.drawPolygon(modifiedX,modifiedY,((ComplexShape)shape).getNumberOfSides());
           }
         }
       }
